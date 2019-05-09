@@ -98,4 +98,4 @@ def fileix(filename,has_dot = False):
     else:
         return ''
 if __name__ == '__main__':
-    fileix()
+    print(fileix())
