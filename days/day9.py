@@ -1,6 +1,7 @@
 # '''
 # 属性私有化，是为了避免外部代码对属性的随意访问修改
-# 利用@property装饰器对class的私有属性进行访问和设置，是为了简化设置属性的方法，并让属性的设置有一定的值域限制
+# 利用@property访问器和@name.setter修改器对class的私有属性进行访问和设置，是为了简化设置
+# 属性的方法，并重复利用代码时让属性的设置有一定的值域限制
 #
 # 将类方法变为类属性
 # 疑问：绕了一圈，还不如将类公有化，直接访问和修改？
@@ -41,7 +42,7 @@
 #     # print(person._gender)
 # if __name__ == '__main__':
 #     main()
-
+#
 # '''
 # 静态方法：通过给类发消息，来判断所传递的参数是否能构成类的一个实例化对象
 # 类静态方法的写法：@staticmethod + 函数的定义
@@ -72,8 +73,8 @@
 #         print(t.area())
 # if __name__ == '__main__':
 #     main()
-
-
+#
+#
 # '''
 # 类方法：通过@classmethod给类发消息，来获取类的对象的信息，创建对象
 # '''
@@ -108,66 +109,91 @@
 # if __name__ == '__main__':
 #     main()
 #
+#
+# '''
+# 类之间的关系：
+# 1.is-a关系也叫继承或泛化，比如学生和人的关系、手机和电子产品的关系都属于继承关系。
+# 2.has-a关系通常称之为关联，比如部门和员工的关系，汽车和引擎的关系都属于关联关系；关联关系如果是整体和部分的关联，那么我们称之为聚合关系；如果整体进一步负责了部分的生命周期（整体和部分是不可分割的，同时同在也同时消亡），那么这种就是最强的关联关系，我们称之为合成关系。
+# 3.use-a关系通常称之为依赖，比如司机有一个驾驶的行为（方法），其中（的参数）使用到了汽车，那么司机和汽车的关系就是依赖关系。
+# '''
+#
+#
+# '''
+# 继承：子类可以从父类继承属性、方法和装饰器属性
+# '''
+# class Person(object):
+#     def __init__(self,name,age):
+#         self._name = name
+#         self._age = age
+#     @property
+#     def name(self):
+#         return self._name
+#     @property
+#     def age(self):
+#         return self._age
+#     @age.setter
+#     def age(self,age):
+#         self._age = age
+#     def paly(self):
+#         if self._age >= 18:
+#             print('%s can get out'% self._name)
+#         else:
+#             print('%s can not get out'% self._name)
+# class Student(Person):
+#     def __init__(self,name,age,grade):
+#         super().__init__(name,age)#属性的继承格式  super.__init__(继承参数)
+#         self._grade = grade
+#     @property
+#     def grade(self):
+#         return self._grade
+#     @grade.setter
+#     def grade(self,grade):
+#         if not isinstance(grade,int):
+#             raise ErrorValue('The grade is not int!')#
+#         elif grade < 0 or grade > 100:
+#             raise ErrorValue('The grade is out of range!')
+#         else:
+#             self._grade = grade
+#     def study(self,course):
+#         print('%s is studying %s'%(self._name,course))
+# def main():
+#     stu = Student('lilin',16,70)
+#     print(stu.name)#继承父类的装饰器
+#     print(stu.age )
+#     print(stu.grade )
+#     stu.paly()#继承父类的方法
+#     stu.age = 23
+#     stu.grade = 90 #子类自己的装饰器，并且有数据限制
+#     stu.paly()
+#     stu.study('python')
+# if __name__ == '__main__':#
+#     main()
 
+# '''
+# 多态：子类在继承了父类的方法后，可以对父类已有的方法给出新的实现版本
+# '''
+# from abc import ABCMeta,abstractmethod
+# class Pet(object,metaclass=ABCMeta):
+#     def __init__(self,nick_name):
+#         self._name = nick_name
+#     @abstractmethod#定义一个抽象类只能被继承，不能实例化
+#     def make_vioce(self):
+#         print('%s is make vioce!'% self._name)
+# # class Dog(Pet):#无法继承父类的抽象方法
+# #     pass
+# class Ant(Pet):
+#     def make_vioce(self):#覆盖父类的方法
+#         print('%s is yayayay'% self._name)
+# class Cat(Pet):
+#     def make_vioce(self):
+#         print('%s is miaomiaomiao'% self._name)
+# def main():
+#     pets = [Ant('hei'),Cat('miao')]
+#     for pet in pets:
+#         pet.make_vioce()
+# if __name__ == '__main__':
+#     main()
 '''
-类之间的关系：
-1.is-a关系也叫继承或泛化，比如学生和人的关系、手机和电子产品的关系都属于继承关系。
-2.has-a关系通常称之为关联，比如部门和员工的关系，汽车和引擎的关系都属于关联关系；关联关系如果是整体和部分的关联，那么我们称之为聚合关系；如果整体进一步负责了部分的生命周期（整体和部分是不可分割的，同时同在也同时消亡），那么这种就是最强的关联关系，我们称之为合成关系。
-3.use-a关系通常称之为依赖，比如司机有一个驾驶的行为（方法），其中（的参数）使用到了汽车，那么司机和汽车的关系就是依赖关系。
-'''
+案例1：奥特曼打小怪兽
 
-
-'''
-继承：子类可以从父类继承属性、方法和装饰器属性
-'''
-class Person(object):
-    def __init__(self,name,age):
-        self._name = name
-        self._age = age
-    @property
-    def name(self):
-        return self._name
-    @property
-    def age(self):
-        return self._age
-    @age.setter
-    def age(self,age):
-        self._age = age
-    def paly(self):
-        if self._age >= 18:
-            print('%s can get out'% self._name)
-        else:
-            print('%s can not get out'% self._name)
-class Student(Person):
-    def __init__(self,name,age,grade):
-        super().__init__(name,age)#属性的继承格式  super.__init__(继承参数)
-        self._grade = grade
-    @property
-    def grade(self):
-        return self._grade
-    @grade.setter
-    def grade(self,grade):
-        if not isinstance(grade,int):
-            raise ErrorValue('The grade is not int!')#
-        elif grade < 0 or grade > 100:
-            raise ErrorValue('The grade is out of range!')
-        else:
-            self._grade = grade
-    def study(self,course):
-        print('%s is studying %s'%(self._name,course))
-def main():
-    stu = Student('lilin',16,70)
-    print(stu.name)#继承父类的装饰器
-    print(stu.age )
-    print(stu.grade )
-    stu.paly()#继承父类的方法
-    stu.age = 23
-    stu.grade = 90 #子类自己的装饰器，并且有数据限制
-    stu.paly()
-    stu.study('python')
-if __name__ == '__main__':#
-    main()
-
-'''
-多态：
 '''
