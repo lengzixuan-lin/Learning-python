@@ -1,35 +1,35 @@
-# import tkinter
-# import tkinter.messagebox
-#
-# def main():
-#     flag = True
-#     def change_the_text():
-#         nonlocal flag
-#         flag = not flag
-#         color,msg = ('red','Hello world')\
-#             if flag else ('blue','Goodbey world')
-#         label.config(text = msg,fg = color)
-#     def confim_to_quit():
-#         if tkinter.messagebox.askokcancel('Notice','Are you sure to quit?'):
-#             top.quit()
-#     #建立窗口
-#     top = tkinter.Tk()
-#     top.title('Game')
-#     top.geometry('240x160')
-#     #创建标签
-#     label = tkinter.Label(top,text = 'Hello world',font = 'Arial -32',fg = 'red')
-#     label.pack(expand = 1)
-#     #创建按钮
-#     panel = tkinter.Frame(top)
-#     button1 = tkinter.Button(top,text = 'change',command = change_the_text)
-#     button1.pack(side='left')
-#     button2 = tkinter.Button(top,text = 'quit',command = confim_to_quit)
-#     button2.pack(side='right')
-#     panel.pack(side='bottom')
-#     #窗口循环
-#     tkinter.mainloop()
-# if __name__ == '__main__':
-#     main()
+import tkinter
+import tkinter.messagebox
+
+def main():
+    flag = True
+    def change_the_text():
+        nonlocal flag
+        flag = not flag
+        color,msg = ('red','Hello world')\
+            if flag else ('blue','Goodbey world')
+        label.config(text = msg,fg = color)
+    def confim_to_quit():
+        if tkinter.messagebox.askokcancel('Notice','Are you sure to quit?'):
+            top.quit()
+    #建立窗口
+    top = tkinter.Tk()
+    top.title('Game')
+    top.geometry('240x160')
+    #创建标签
+    label = tkinter.Label(top,text = 'Hello world',font = 'Arial -32',fg = 'red')
+    label.pack(expand = 1)
+    #创建按钮
+    panel = tkinter.Frame(top)
+    button1 = tkinter.Button(top,text = 'change',command = change_the_text)
+    button1.pack(side='left')
+    button2 = tkinter.Button(top,text = 'quit',command = confim_to_quit)
+    button2.pack(side='right')
+    panel.pack(side='bottom')
+    #窗口循环
+    tkinter.mainloop()
+if __name__ == '__main__':
+    main()
 
 '''
 打球吃小球
